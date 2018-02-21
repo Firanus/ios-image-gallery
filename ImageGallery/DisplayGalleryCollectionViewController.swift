@@ -31,15 +31,25 @@ class DisplayGalleryCollectionViewController: UICollectionViewController {
 //        // Dispose of any resources that can be recreated.
 //    }
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
+        let destinationViewController = segue.destination
+        switch segue.identifier {
+        case "showImageSegue"?:
+            if let displayImageController = destinationViewController as? DisplayImageViewController {
+                if let imageCell = sender as? GalleryImageViewCell {
+                    displayImageController.galleryImage = imageCell.galleryImage
+                }
+            }
+        default:
+            break
+        }
     }
-    */
 
     // MARK: UICollectionViewDataSource
 
@@ -57,13 +67,8 @@ class DisplayGalleryCollectionViewController: UICollectionViewController {
     
         // Configure the cell
         if let imageCell = cell as? GalleryImageViewCell {
-            let galleryImage = imageGallery.images[indexPath.row]
             imageCell.activityIndicator.startAnimating()
-            galleryImage.fetchImage { image in
-                DispatchQueue.main.async {
-                    imageCell.image = image
-                }
-            }
+            imageCell.galleryImage = imageGallery.images[indexPath.row]
         }
         
         return cell

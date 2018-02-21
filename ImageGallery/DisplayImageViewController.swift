@@ -10,15 +10,13 @@ import UIKit
 
 class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
 
-    
     var galleryImage: GalleryImage? {
         didSet {
             imageView.image = nil
-            activityIndicator.startAnimating()
-            galleryImage?.fetchImage { image in
-                weak var weakSelf = self
+            activityIndicator?.startAnimating()
+            galleryImage?.fetchImage { [weak self] image in
                 DispatchQueue.main.async {
-                    weakSelf?.image = image
+                    self?.image = image
                 }
             }
         }

@@ -14,17 +14,20 @@ class GalleryImageViewCell: UICollectionViewCell {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private var imageView = UIImageView()
-    var image: UIImage? {
-        get {
-            return imageView.image
-        }
-        set {
-            imageView.image = newValue
-            imageView.contentMode = .scaleAspectFit
-            imageView.frame.size = self.bounds.size
-            self.addSubview(imageView)
-            activityIndicator.stopAnimating()
+    var galleryImage: GalleryImage? {
+        didSet {
+            let url = galleryImage?.url
+            galleryImage?.fetchImage { [weak self] image in
+                DispatchQueue.main.async {
+                    if let realSelf = self, url == self?.galleryImage?.url {
+                        realSelf.imageView.image = image
+                        realSelf.imageView.contentMode = .scaleAspectFit
+                        realSelf.imageView.frame.size = realSelf.bounds.size
+                        realSelf.addSubview(realSelf.imageView)
+                        realSelf.activityIndicator.stopAnimating()
+                    }
+                }
+            }
         }
     }
-    
 }
