@@ -14,6 +14,7 @@ class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
     var galleryImage: GalleryImage? {
         didSet {
             imageView.image = nil
+            activityIndicator.startAnimating()
             galleryImage?.fetchImage { image in
                 weak var weakSelf = self
                 DispatchQueue.main.async {
@@ -23,6 +24,7 @@ class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
         }
     }
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var scrollView: UIScrollView! {
         didSet {
             scrollView.addSubview(imageView)
@@ -46,6 +48,7 @@ class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
             imageView.sizeToFit()
             scrollView.contentSize = imageView.frame.size
             setZoomScales(for: scrollView.frame.size)
+            activityIndicator.stopAnimating()
         }
     }
     

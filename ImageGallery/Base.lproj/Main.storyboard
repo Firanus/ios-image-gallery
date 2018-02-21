@@ -85,17 +85,24 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2MQ-oe-T9O">
                                 <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
                             </scrollView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Lwk-O9-QrW">
+                                <rect key="frame" x="366" y="494" width="37" height="37"/>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Lwk-O9-QrW" firstAttribute="centerX" secondItem="A79-Z5-QWp" secondAttribute="centerX" id="1WJ-gs-PgQ"/>
                             <constraint firstItem="2MQ-oe-T9O" firstAttribute="top" secondItem="qRp-rk-hSo" secondAttribute="top" id="4X2-IK-dqV"/>
                             <constraint firstItem="qRp-rk-hSo" firstAttribute="trailing" secondItem="2MQ-oe-T9O" secondAttribute="trailing" id="VgH-D5-n1O"/>
+                            <constraint firstItem="Lwk-O9-QrW" firstAttribute="centerY" secondItem="A79-Z5-QWp" secondAttribute="centerY" id="gyI-Yl-5aY"/>
                             <constraint firstItem="2MQ-oe-T9O" firstAttribute="leading" secondItem="qRp-rk-hSo" secondAttribute="leading" id="phi-4U-nl6"/>
                             <constraint firstItem="qRp-rk-hSo" firstAttribute="bottom" secondItem="2MQ-oe-T9O" secondAttribute="bottom" id="yin-x2-ail"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qRp-rk-hSo"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="Lwk-O9-QrW" id="gHC-1J-Xl8"/>
                         <outlet property="scrollView" destination="2MQ-oe-T9O" id="RTa-Tr-j9S"/>
                     </connections>
                 </viewController>
