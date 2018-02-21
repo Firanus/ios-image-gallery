@@ -8,20 +8,71 @@
 
 import UIKit
 
-class DisplayImageViewController: UIViewController {
+class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    var galleryImage: GalleryImage? {
+        didSet {
+            imageView.image = nil
+            galleryImage?.fetchImage { image in
+                weak var weakSelf = self
+                DispatchQueue.main.async {
+                    weakSelf?.image = image
+                }
+            }
+        }
     }
     
-
+    @IBOutlet weak var scrollView: UIScrollView! {
+        didSet {
+            scrollView.addSubview(imageView)
+            scrollView.delegate = self
+        }
+    }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return imageView
+    }
+    
+    var imageView = UIImageView()
+    
+    var image: UIImage? {
+        get {
+            return imageView.image
+        }
+        set {
+            imageView.image = newValue
+            imageView.contentMode = .scaleAspectFit
+            imageView.sizeToFit()
+            scrollView.contentSize = imageView.frame.size
+            setZoomScales(for: scrollView.frame.size)
+        }
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        setZoomScales(for: size)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        if galleryImage == nil {
+            galleryImage = GalleryImage()
+        }
+    }
+    
+    private func setZoomScales(for size: CGSize) {
+        if let image = imageView.image?.cgImage {
+            let imageWidth = CGFloat(image.width)
+            scrollView.minimumZoomScale = imageWidth > size.width ? size.width / imageWidth : 1
+            scrollView.maximumZoomScale = imageWidth > size.width ? 1 : size.width / imageWidth
+        } else {
+            scrollView.minimumZoomScale = 1
+            scrollView.maximumZoomScale = 1
+        }
+        
+    }
+    
     /*
     // MARK: - Navigation
 

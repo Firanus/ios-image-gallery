@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WxU-MX-dDJ">
-    <device id="ipad9_7" orientation="landscape">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FE6-wT-cAh">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,7 +15,7 @@
             <objects>
                 <tableViewController id="f90-8s-rCN" customClass="SelectGalleryTableViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Ovy-qt-5gL">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -44,7 +44,7 @@
             <objects>
                 <collectionViewController id="o5D-pK-c9n" customClass="DisplayGalleryCollectionViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="hpk-iW-rPj">
-                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ED4-lj-Mjx">
@@ -79,15 +79,29 @@
             <objects>
                 <viewController id="FE6-wT-cAh" customClass="DisplayImageViewController" customModule="ImageGallery" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="A79-Z5-QWp">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2MQ-oe-T9O">
+                                <rect key="frame" x="0.0" y="20" width="768" height="1004"/>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2MQ-oe-T9O" firstAttribute="top" secondItem="qRp-rk-hSo" secondAttribute="top" id="4X2-IK-dqV"/>
+                            <constraint firstItem="qRp-rk-hSo" firstAttribute="trailing" secondItem="2MQ-oe-T9O" secondAttribute="trailing" id="VgH-D5-n1O"/>
+                            <constraint firstItem="2MQ-oe-T9O" firstAttribute="leading" secondItem="qRp-rk-hSo" secondAttribute="leading" id="phi-4U-nl6"/>
+                            <constraint firstItem="qRp-rk-hSo" firstAttribute="bottom" secondItem="2MQ-oe-T9O" secondAttribute="bottom" id="yin-x2-ail"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="qRp-rk-hSo"/>
                     </view>
+                    <connections>
+                        <outlet property="scrollView" destination="2MQ-oe-T9O" id="RTa-Tr-j9S"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QTq-Vf-1sk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="933" y="1315"/>
+            <point key="canvasLocation" x="932.81249999999989" y="1314.84375"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="fNi-bZ-7Qn">
@@ -108,7 +122,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gF1-Jm-I01" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="50p-3o-sIC">
-                        <rect key="frame" x="0.0" y="20" width="703.5" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="768" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
