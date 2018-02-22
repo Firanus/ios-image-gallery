@@ -9,7 +9,7 @@
 import Foundation
 class ImageGallery {
     var name: String
-    var images: [GalleryImage] = [GalleryImage()]
+    var images: [GalleryImage] = []
     
     private static var identifier = 0
     private static func getDefaultName() -> String {

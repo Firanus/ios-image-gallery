@@ -12,14 +12,13 @@ struct GalleryImage {
     let url: URL
     var aspectRatio: Double
     
-    init() {
-        aspectRatio = 0.0
-        url = URL(string: "https://upload.wikimedia.org/wikipedia/commons/2/21/Mandel_zoom_00_mandelbrot_set.jpg")!
+    init(url: URL) {
+        self.init(url: url, uiImage: nil)
     }
     
-    init(_ uiImage: UIImage, withURL url: URL) {
+    init(url: URL, uiImage: UIImage?) {
         self.url = url
-        if let image = uiImage.cgImage {
+        if let image = uiImage?.cgImage {
             aspectRatio = Double(image.width) / Double(image.height)
         } else {
             aspectRatio = 0.0
@@ -29,9 +28,8 @@ struct GalleryImage {
     func fetchImage(completion: @escaping (UIImage?) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             let urlContents = try? Data(contentsOf: self.url.imageURL)
-            if let imageData = urlContents {
-                completion(UIImage(data: imageData))
-            }
+            let imageData = (urlContents != nil ? urlContents! : try! Data(contentsOf: imageConstants.failUrl))
+            completion(UIImage(data: imageData))
         }
     }
 }

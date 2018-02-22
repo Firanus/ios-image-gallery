@@ -55,13 +55,6 @@ class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
         setZoomScales(for: size)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if galleryImage == nil {
-            galleryImage = GalleryImage()
-        }
-    }
-    
     private func setZoomScales(for size: CGSize) {
         if let image = imageView.image?.cgImage {
             let imageWidth = CGFloat(image.width)
@@ -73,15 +66,4 @@ class DisplayImageViewController: UIViewController, UIScrollViewDelegate {
         }
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
