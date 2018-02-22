@@ -33,6 +33,30 @@ class SelectGalleryTableViewController: UITableViewController {
         imageGalleries.append(ImageGallery())
         tableView.reloadData()
     }
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        if let identifier = segue.identifier {
+            switch identifier {
+            case "openGallerySegue":
+                if let cell = sender as? UITableViewCell {
+                    if let indexPath = tableView.indexPath(for: cell) {
+                        if let collectionController = segue.destination as? DisplayGalleryCollectionViewController {
+                            collectionController.imageGallery = imageGalleries[indexPath.row]
+                        }
+                    }
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -86,15 +110,4 @@ class SelectGalleryTableViewController: UITableViewController {
         return true
     }
     */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
