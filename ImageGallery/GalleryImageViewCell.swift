@@ -10,15 +10,18 @@ import UIKit
 
 class GalleryImageViewCell: UICollectionViewCell {
     
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    private var imageView: UIImageView?
+    var imageView: UIImageView?
     
     //Is putting the fetch logic here bad? Should I just have an outlet, and move the actual fetching to the controller?
     var galleryImage: GalleryImage? {
         didSet {
-            imageView = nil
+            for subview in self.subviews {
+                if subview as? UIImageView != nil {
+                    subview.removeFromSuperview()
+                }
+            }
             let url = galleryImage?.url
             galleryImage?.fetchImage { [weak self] image in
                 DispatchQueue.main.async {

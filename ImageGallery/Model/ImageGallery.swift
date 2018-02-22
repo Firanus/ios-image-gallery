@@ -21,6 +21,11 @@ class ImageGallery {
         name = ImageGallery.getDefaultName()
     }
     
+    init(name: String, withImages images: [GalleryImage]){
+        self.name = name
+        self.images = images
+    }
+    
     convenience init(withImages images: [GalleryImage]){
         self.init()
         self.images = images

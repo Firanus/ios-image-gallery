@@ -8,16 +8,38 @@
 
 import UIKit
 
-private let reuseIdentifier = "imageCell"
+private let imageReuseIdentifier = "imageCell"
+private let placeholderReuseIdentifier = "placeholderCell"
 
 class DisplayGalleryCollectionViewController: UICollectionViewController, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     
     var imageGallery: ImageGallery = imageConstants.mandelbrotGallery
     
+    var flowLayout: UICollectionViewFlowLayout? {
+        return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.dragDelegate = self
         collectionView?.dropDelegate = self
+        
+        let pinchGestureRecogniser = UIPinchGestureRecognizer(target: self, action: #selector(DisplayGalleryCollectionViewController.pinchGallery))
+        collectionView?.addGestureRecognizer(pinchGestureRecogniser)
+    }
+    
+    @objc func pinchGallery(recognizer: UIPinchGestureRecognizer){
+        switch recognizer.state {
+        case .changed:
+            if let itemSize = flowLayout?.itemSize {
+                let scaleFactor = recognizer.scale
+                flowLayout?.itemSize = CGSize(width: itemSize.width * scaleFactor, height: itemSize.height * scaleFactor)
+                flowLayout?.invalidateLayout()
+            }
+            recognizer.scale = 1.0
+        default:
+            break
+        }
     }
     
     // MARK: - Navigation
@@ -32,6 +54,7 @@ class DisplayGalleryCollectionViewController: UICollectionViewController, UIColl
         case "showImageSegue"?:
             if let displayImageController = destinationViewController as? DisplayImageViewController {
                 if let imageCell = sender as? GalleryImageViewCell {
+                    imageCell.activityIndicator.isHidden = false
                     imageCell.activityIndicator.startAnimating()
                     displayImageController.galleryImage = imageCell.galleryImage
                 }
@@ -53,7 +76,7 @@ class DisplayGalleryCollectionViewController: UICollectionViewController, UIColl
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: imageReuseIdentifier, for: indexPath)
         
         // Configure the cell
         if let imageCell = cell as? GalleryImageViewCell {
@@ -110,7 +133,7 @@ class DisplayGalleryCollectionViewController: UICollectionViewController, UIColl
                     coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
                 }
             } else {
-                let placeHolderContext = coordinator.drop(item.dragItem, to: UICollectionViewDropPlaceholder(insertionIndexPath: destinationIndexPath, reuseIdentifier: reuseIdentifier))
+                let placeHolderContext = coordinator.drop(item.dragItem, to: UICollectionViewDropPlaceholder(insertionIndexPath: destinationIndexPath, reuseIdentifier: placeholderReuseIdentifier))
                 item.dragItem.itemProvider.loadObject(ofClass: NSURL.self) { (provider, error) in
                     DispatchQueue.main.async {
                         if let url = provider as? URL {
