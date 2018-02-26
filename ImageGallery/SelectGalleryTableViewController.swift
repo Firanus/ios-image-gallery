@@ -40,7 +40,7 @@ class SelectGalleryTableViewController: UITableViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         switch identifier {
         case "openGallerySegue":
-            if let cell = sender as? UITableViewCell {
+            if let cell = sender as? GalleryRowTableViewCell {
                 if let indexPath = tableView.indexPath(for: cell) {
                     return indexPath.section == 0
                 }
@@ -58,7 +58,7 @@ class SelectGalleryTableViewController: UITableViewController {
         if let identifier = segue.identifier {
             switch identifier {
             case "openGallerySegue":
-                if let cell = sender as? UITableViewCell {
+                if let cell = sender as? GalleryRowTableViewCell {
                     if let indexPath = tableView.indexPath(for: cell) {
                         if let collectionController = segue.destination as? DisplayGalleryCollectionViewController {
                             collectionController.imageGallery = imageGalleries[indexPath.row]
@@ -75,7 +75,11 @@ class SelectGalleryTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        if recentlyDeletedGalleries.count > 0 {
+            return 2
+        } else {
+            return 1
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,16 +97,32 @@ class SelectGalleryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "galleryRow", for: indexPath)
 
-        // Configure the cell...
-        switch indexPath.section {
-        case 0:
-            cell.textLabel?.text = imageGalleries[indexPath.row].name
-        case 1:
-            cell.textLabel?.text = recentlyDeletedGalleries[indexPath.row].name
-        default:
-            break
+        if let galleryCell = cell as? GalleryRowTableViewCell {
+            switch indexPath.section {
+            case 0:
+                galleryCell.textField.text = imageGalleries[indexPath.row].name
+            case 1:
+                galleryCell.textField.text = recentlyDeletedGalleries[indexPath.row].name
+            default:
+                break
+            }
+            galleryCell.resignationHandler = { [weak self, unowned galleryCell] in
+                if let text = galleryCell.textField.text {
+                    switch indexPath.section {
+                    case 0:
+                        self?.imageGalleries[indexPath.row].name = text
+                    case 1:
+                        self?.recentlyDeletedGalleries[indexPath.row].name = text
+                    default:
+                        break
+                    }
+                }
+            }
+            return galleryCell
+        } else {
+            cell.textLabel?.text = "UNDEFINED"
+            return cell
         }
-        return cell
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -133,8 +153,12 @@ class SelectGalleryTableViewController: UITableViewController {
                     let restoredImageGallery = self.recentlyDeletedGalleries[indexPath.row]
                     self.recentlyDeletedGalleries.remove(at: indexPath.row)
                     self.imageGalleries.append(restoredImageGallery)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    tableView.insertRows(at: [IndexPath(row: destinationIndexPath, section: 0) ], with: .fade)
+                    if self.recentlyDeletedGalleries.count == 0 {
+                        tableView.deleteSections(IndexSet(integer: 1), with: UITableViewRowAnimation.left)
+                    } else {
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
+                    tableView.insertRows(at: [IndexPath(row: destinationIndexPath, section: 0) ], with: .left)
                 })
                 completionHandler(true)
             }
@@ -153,16 +177,25 @@ class SelectGalleryTableViewController: UITableViewController {
                 // Delete the row from the data source
                 let deletedGallery = imageGalleries[indexPath.row]
                 tableView.performBatchUpdates({
+                    if recentlyDeletedGalleries.count == 0 {
+                        tableView.insertSections(IndexSet(integer: 1), with: UITableViewRowAnimation.left)
+                    }
                     let destinationIndexPath = recentlyDeletedGalleries.count
                     imageGalleries.remove(at: indexPath.row)
                     recentlyDeletedGalleries.append(deletedGallery)
                     tableView.deleteRows(at: [indexPath], with: .fade)
-                    tableView.insertRows(at: [IndexPath(row: destinationIndexPath, section: 1) ], with: .fade)
+                    tableView.insertRows(at: [IndexPath(row: destinationIndexPath, section: 1) ], with: .left)
                 })
             case 1:
                 // Delete the row from the data source
-                recentlyDeletedGalleries.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
+                tableView.performBatchUpdates({
+                    recentlyDeletedGalleries.remove(at: indexPath.row)
+                    if recentlyDeletedGalleries.count == 0 {
+                        tableView.deleteSections(IndexSet(integer: 1), with: UITableViewRowAnimation.left)
+                    } else {
+                        tableView.deleteRows(at: [indexPath], with: .left)
+                    }
+                })
             default:
                 break
             }

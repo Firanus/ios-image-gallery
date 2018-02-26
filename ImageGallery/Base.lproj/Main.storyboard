@@ -19,14 +19,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="galleryRow" id="jba-7c-ydv">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="galleryRow" id="jba-7c-ydv" customClass="GalleryRowTableViewCell" customModule="ImageGallery" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jba-7c-ydv" id="aSv-MW-VEd">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Brl-xZ-LZ4">
+                                            <rect key="frame" x="20" y="20" width="280" height="4"/>
+                                            <accessibility key="accessibilityConfiguration">
+                                                <accessibilityTraits key="traits" notEnabled="YES"/>
+                                            </accessibility>
+                                            <nil key="textColor"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="Brl-xZ-LZ4" secondAttribute="trailing" constant="20" symbolic="YES" id="8oH-eB-2vS"/>
+                                        <constraint firstItem="Brl-xZ-LZ4" firstAttribute="top" secondItem="aSv-MW-VEd" secondAttribute="top" constant="20" symbolic="YES" id="AcI-WN-nmE"/>
+                                        <constraint firstAttribute="bottom" secondItem="Brl-xZ-LZ4" secondAttribute="bottom" constant="20" symbolic="YES" id="Hhd-dU-RSS"/>
+                                        <constraint firstItem="Brl-xZ-LZ4" firstAttribute="leading" secondItem="aSv-MW-VEd" secondAttribute="leading" constant="20" symbolic="YES" id="cgC-jY-6eb"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="textContentView" destination="aSv-MW-VEd" id="1GE-zN-nMq"/>
+                                    <outlet property="textField" destination="Brl-xZ-LZ4" id="0Qf-Sa-rNg"/>
                                     <segue destination="o5D-pK-c9n" kind="showDetail" identifier="openGallerySegue" id="cfG-c0-aia"/>
                                 </connections>
                             </tableViewCell>
@@ -37,7 +56,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="NL6-ow-fbm">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="ejN-KJ-wwX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ejN-KJ-wwX">
                             <connections>
                                 <action selector="addImageGallery:" destination="f90-8s-rCN" id="yMF-zf-0Hb"/>
                             </connections>
@@ -46,7 +65,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GRk-Sn-NUJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="754" y="501"/>
+            <point key="canvasLocation" x="310" y="501"/>
         </scene>
         <!--Display Gallery Collection View Controller-->
         <scene sceneID="AWq-BG-jg7">
@@ -118,7 +137,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a7P-yE-eSz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="754" y="1455"/>
+            <point key="canvasLocation" x="310" y="1455"/>
         </scene>
         <!--Display Image View Controller-->
         <scene sceneID="Rqm-fB-Je7">
@@ -154,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QTq-Vf-1sk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1920" y="1455"/>
+            <point key="canvasLocation" x="1044" y="1455"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="fNi-bZ-7Qn">
@@ -167,7 +186,7 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zmj-lm-iAR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1671" y="918"/>
+            <point key="canvasLocation" x="-1174" y="935"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="t7O-aa-4fs">
