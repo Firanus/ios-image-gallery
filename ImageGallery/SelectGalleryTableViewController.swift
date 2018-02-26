@@ -124,6 +124,27 @@ class SelectGalleryTableViewController: UITableViewController {
     }
     */
 
+    override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 1 {
+            let undeleteSwipeAction = UIContextualAction(style: .normal, title: "Restore")
+            { (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
+                tableView.performBatchUpdates({
+                    let destinationIndexPath = self.imageGalleries.count
+                    let restoredImageGallery = self.recentlyDeletedGalleries[indexPath.row]
+                    self.recentlyDeletedGalleries.remove(at: indexPath.row)
+                    self.imageGalleries.append(restoredImageGallery)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    tableView.insertRows(at: [IndexPath(row: destinationIndexPath, section: 0) ], with: .fade)
+                })
+                completionHandler(true)
+            }
+            undeleteSwipeAction.backgroundColor = UIColor(rgbColorCodeRed: 76, green: 217, blue: 100, alpha: 1.0)
+            
+            return UISwipeActionsConfiguration(actions: [undeleteSwipeAction])
+        }
+        return nil
+    }
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
